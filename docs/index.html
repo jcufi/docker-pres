@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>reveal-md</title>
+        <link rel="stylesheet" href="./css/reveal.css">
+        <link rel="stylesheet" href="./css/theme/white.css" id="theme">
+        <link rel="stylesheet" href="./css/highlight/zenburn.css">
+        <link rel="stylesheet" href="./css/print/paper.css" type="text/css" media="print">
+
+		<script>
+		  document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
+		  ':35729/livereload.js?snipver=1"></' + 'script>')
+		</script>
+    </head>
+    <body>
+
+        <div class="reveal">
+            <div class="slides"><section  data-markdown><script type="text/template"><link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet" />
+<style>
+.reveal section img {
+    border: 0px;
+}
+.reveal pre{
+        box-shadow: 0px 0px 0px;
+}
+.reveal,
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  /*font-family: "Fira Sans";*/
+  font-family: 'Roboto Condensed', sans-serif, Arial, Helvetica;
+  color: black; 
+}
+.reduced{
+    font-size:0.9em !important;
+}
+.exp{
+    font-size:0.5em !important;
+}
+.hum{
+    font-size:0.3em !important;
+}
+</style>
+
+### Présentation docker 
+#### CATI DIISCICO 
+Julien Cufi
+
+<small>04/02/2020</small>
+<!-- .slide: class="center" --></script></section><section  data-markdown><script type="text/template">#### Présentation docker - CATI DIISCICO 
+---------------------
+
+1. Introduction et principes
+
+2. Cas d'utilisation
+
+3. Retours d'expérience
+
+</script></section><section  data-markdown><script type="text/template">#### Introduction et principes
+---------------------
+
+*Qu'est-ce que c'est ?*
+
+Docker est une technologie permettant d'exécuter une application dans un environnement isolé, comprenant l'application mais également l'ensemble des dépendances nécessaires a son fonctionnement.
+</script></section><section  data-markdown><script type="text/template">#### Introduction et principes
+---------------------
+*Quelques mots de vocabulaire...*
+
+* L'environnement dans lequel s'exécute l'application est appelé un ***conteneur Docker***.
+
+* La matrice servant a définir ce qui est présent dans le conteneur est appelé une ***image Docker***.
+
+* Un catalogue public d'images accessible sur le web permet de les mutualiser, ce catalogue s'appelle le ***DockerHub***.
+</script></section><section  data-markdown><script type="text/template">#### Introduction et principes
+---------------------
+*Qui l'a crée et pourquoi ?*
+
+* Docker est un projet OpenSource sous licence Apache 2.0 crée en 2013 par Solomon Hykes.
+
+* Le projet est supporté par la communauté et par l'entreprise Docker Inc.
+
+* Crée a l'origine pour la société dotCloud (PaaS)
+</script></section><section  data-markdown><script type="text/template">#### Introduction et principes
+---------------------
+
+![](data:image/png;base64,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)
+
+<small>Docker s'appuie sur une architecture client/serveur, un client en ligne de commande envoie des instructions (via une API REST) au serveur (daemon docker / docker engine).</small>
+</script></section><section  data-markdown><script type="text/template">#### Introduction et principes
+---------------------
+
+*Comment ça marche ?*
+
+A l'origine Docker s'appuie sur LXC (LinuX container) et les fonctionnalités d'isolation du noyau Linux (cgroup, namespaces, ...) pour fournir un environnement d'exécution étanche.
+
+&rArr; Problème de portabilité pour Docker Inc.
+<!-- .element: class="fragment" -->
+
+<!--Parmis ces fonctionnalités citons les espaces de nom Linux (isolation du système de fichier, des processus, du  réseau), et les groupes de contrôle (limitation des ressources)-->
+
+</script></section><section  data-markdown><script type="text/template">#### Introduction et principes
+---------------------
+
+* Remplacement de LXC par libcontainer
+* Modularisation de la partie serveur
+    * création d'outils spécifiques (creation container, gestion du cycle de vie...)
+    * implémentation de référence des spécifications émise par Open Container Initiative...
+</script></section><section  data-markdown><script type="text/template">#### Introduction et principes
+---------------------
+
+*Open Container Initiative* 
+
+* Projet crée en 2015 et supporté par la Fondation Linux 
+* Objectif : la normalisation des conteneurs 
+    + environnement d'exécution des conteneurs
+    + images 
+* Crée par Docker Inc. avec quelques petites sociétés...
+
+<!-- .element: class="reduced" -->
+<img src="./open_container_project.png" height="60%" width="60%">
+</script></section><section  data-markdown><script type="text/template">#### Introduction et principes
+---------------------
+
+*Je fais déjà ça avec mes machines virtuelles !*
+
+Dans une machine virtuelle, on simule une machine (ie. toute la partie hardware) et chaque machine virtuelle a son propre système d'exploitation.
+<!-- .element: class="reduced" -->
+
+<img src="./Blog.-Are-containers-..VM-Image-1.png" height="80%" width="80%">
+
+
+</script></section><section  data-markdown><script type="text/template">#### Introduction et principes
+---------------------
+
+*Comment je l'utilise ?*
+
+* Docker est disponible sur Linux / Windows / Mac (VM)
+    &rArr; requiert Hyperviseur sous windows
+* Deux versions EE et CE (&ne; niveaux de support)
+* On l'utilisera au travers de lignes de commandes
+</script></section><section  data-markdown><script type="text/template">
+*passons à la pratique...* 
+
+<iframe src="https://giphy.com/embed/JIX9t2j0ZTN9S" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+<!-- .slide: class="center" -->
+</script></section><section  data-markdown><script type="text/template">#### Cas d'utilisation
+---------------------
+
+Deux cas d'utilisation 
+
+* Pour l'admin sys qui souhaite tirer parti de Docker pour installer un logiciel et le tester
+
+* Pour le développeur qui souhaite diffuser un logiciel
+</script></section><section  data-markdown><script type="text/template">#### Cas d'utilisation
+---------------------
+*Quelques commandes de base*
+
+
+```bash 
+# Télécharger une image
+$ docker image pull <image>
+
+# Démarrer un conteneur
+$ docker container run <image>
+
+# Lister les conteneurs démarrés
+$ docker container ps
+
+# Stopper un conteneur
+$ docker container stop <nom conteneur / identifiant>
+
+# Supprimer un conteneur 
+$ docker container rm <nom conteneur / identifiant>
+```
+
+<!-- .slide: class="reduced" -->
+</script></section><section  data-markdown><script type="text/template">#### Docker : 1<sup class="exp">er</sup> cas d'utilisation
+---------------------
+
+>Je souhaite démarrer une base postgres v12 pour effectuer quelques tests.
+
+* Recherche d'une image existante sur DockerHub
+(https://hub.docker.com/)
+
+* Le DockerHub contient 
+    * des images officielles : vérifiées par Docker et à jour
+    * des images non-officielles : le Far West
+
+<!-- .slide: class="reduced" -->
+<!-- <img src="./dockerhub.png" height="20%" width="20%"> -->
+</script></section><section  data-markdown><script type="text/template">#### Docker : 1<sup class="exp">er</sup> cas d'utilisation
+---------------------
+
+Démarrage d'un conteneur basé sur l'image postgres:12
+
+```bash 
+$ docker container run -it postgres:12
+Unable to find image 'postgres:12' locally
+12: Pulling from library/postgres
+8ec398bc0356: Downloading [====>]  11.72MB/27.09MB
+65a7b8e7c8f7: Download complete
+b7a5676ed96c: Download complete
+```
+Le client demande le démarrage d'un conteneur, le serveur ne connaissant pas l'image il interroge le DockerHub et la télécharge.
+</script></section><section  data-markdown><script type="text/template">#### Docker : 1<sup class="exp">er</sup> cas d'utilisation
+---------------------
+
+Une fois l'image téléchargé le conteneur est démarré,
+la base est prête a être utilisée
+
+```bash 
+PostgreSQL init process complete; ready for start up.
+listening on IPv4 address "0.0.0.0", port 5432
+database system is ready to accept connections
+```
+
+&rArr; Youpi ?
+<!-- .element: class="fragment" -->
+</script></section><section  data-markdown><script type="text/template">#### Docker : 1<sup class="exp">er</sup> cas d'utilisation
+---------------------
+
+*Quelques particularités sur les conteneurs*
+
+* Environnement isolé de l'hôte donc *par défaut* :
+    * Pas de communication réseau
+    * Pas de partage de données
+* Ephémères
+    * Tant qu'ils ne sont pas supprimés les fichiers présents dans le conteneur sont persistés.
+
+<!--Du point de vue de l'application, celle ci s'execute dans sa distribution Linux spécifique et avec son propre système de fichiers.-->
+
+&rArr; Association de port hôte/conteneur
+<!-- .element: class="fragment" -->
+
+&rArr; Montage d'un volume partagé
+<!-- .element: class="fragment" -->
+</script></section><section  data-markdown><script type="text/template">#### Docker : 1<sup class="exp">er</sup> cas d'utilisation
+---------------------
+
+*On recommence*
+
+```bash 
+# Création d'un volume 
+$docker volume create pgdata
+pgdata
+# Lancement du conteneur
+$docker container run -it 
+                      -p 5432:5432 
+                      -v pgdata:/var/lib/postgresql/data postgres:12
+```
+-p 5432:5432 <br/>
+&rArr; Association de port hôte/conteneur
+<!-- .element: class="fragment" -->
+
+-v pgdata:/var/lib/postgresql/data postgres:12<br/>
+&rArr; Montage d'un volume partagé
+<!-- .element: class="fragment" -->
+
+<!-- .slide: class="reduced" -->
+</script></section><section  data-markdown><script type="text/template">#### Docker : 1<sup class="exp">er</sup> cas d'utilisation
+---------------------
+
+*Pour les curieux*
+
+```bash
+$ docker volume inspect pgdata
+[ 
+    {
+        "CreatedAt": "2019-02-26T17:12:59+01:00",
+        "Driver": "local",
+        "Labels": {},
+        "Mountpoint": "/var/lib/docker/volumes/pgdata/_data",
+        "Name": "pgdata",
+        "Options": {},
+        "Scope": "local"
+    }
+]
+$ ls /var/lib/docker/volumes/pgdata/_data
+postgresql.conf base     pg_commit_ts  pg_ident.conf  pg_notify
+...
+```
+<!-- .slide: class="reduced" --></script></section><section  data-markdown><script type="text/template">#### Docker : 1<sup class="exp">er</sup> cas d'utilisation
+---------------------
+
+Slide sur docker-compose ?
+
+</script></section><section  data-markdown><script type="text/template">#### Docker : 2<sup class="exp">eme</sup> cas d'utilisation
+---------------------
+
+>  J'ai implémenté un algorithme, je souhaite le mettre a disposition.
+
+Objectif : 
+Faciliter la reproductibilité des résultats en minimisant les étapes d'installation du logiciel
+
+&rArr; Nécessite de créer une image Docker propre à son logiciel
+
+<span class="hum">* mais il y en aura toujours </span>
+
+<!-- .slide: class="reduced" -->
+</script></section><section  data-markdown><script type="text/template">#### Docker : Création d'image 1/4
+---------------------
+
+* Une image docker est un fichier texte nommé Dockerfile respectant un language propre a Docker
+
+* On peut "hériter" d'autres images existantes pour les étendre
+
+* Il contient l'ensemble des instructions nécessaires a l'installation du logiciel
+
+* Il est nécessaire de compiler le fichier Dockerfile pour l'utiliser
+
+* L'image réalisée peut rester en local (sans être partagée sur le DockerHub)
+<!-- .slide: class="reduced" -->
+</script></section><section  data-markdown><script type="text/template">#### Docker : Création d'image 2/4
+---------------------
+
+Exemple de fichier Dockerfile :
+
+```docker
+FROM ubuntu:latest 
+RUN apt-get update && \
+    apt-get install -y cowsay
+ENTRYPOINT ["/usr/games/cowsay"]
+```
+
+* FROM : Indique de quelle image existante l'on hérite
+* RUN  : Permet de lancer des commandes d'installation
+* ENTRYPOINT : Définit le point d'entrée du conteneur
+
+</script></section><section  data-markdown><script type="text/template">#### Docker : Création d'image 3/4
+---------------------
+Compilation de l'image :
+
+```bash
+$ docker image build -t cow .
+Step 1/3 : FROM ubuntu:latest                                 
+ ---> dd6f76d9cc90                                            
+Step 2/3 : RUN apt-get update &&     apt-get install -y cowsay
+ ---> Running in 9a0c163a5579
+...
+Step 3/3 : ENTRYPOINT ["/usr/games/cowsay"]
+ ---> Running in c17aa839e8a8
+Removing intermediate container c17aa839e8a8
+ ---> 000e5e657c8d
+Successfully built 000e5e657c8d
+Successfully tagged cow:latest
+```
+<!-- .slide: class="reduced" -->
+</script></section><section  data-markdown><script type="text/template">#### Docker : Création d'image 4/4
+---------------------
+
+Utilisation de l'image
+```bash
+$ docker container run cow "Je suis une vache"
+ ___________________                
+< Je suis une vache >               
+ -------------------                
+        \   ^__^                    
+         \  (oo)\_______            
+            (__)\       )\/\        
+                ||----w |           
+                ||     ||           
+```
+<!-- .slide: class="reduced" -->
+</script></section><section  data-markdown><script type="text/template">#### Docker : 2<sup class="exp">eme</sup> cas d'utilisation
+---------------------
+
+>  J'ai implémenté un algorithme, je souhaite le mettre a disposition.
+
+Cette implémentation requiert :
+* un jeu de données de test
+* une version de java, de maven / ant
+</script></section><section  data-markdown><script type="text/template">#### Docker : 2<sup class="exp">eme</sup> cas d'utilisation
+---------------------
+
+```docker
+# Le fichier Dockerfile
+FROM maven:3.6.2-jdk-8
+RUN mkdir -p /app/results && \
+    mkdir -p /app/src && \
+    mkdir -p /app/data
+COPY data /app/data
+COPY src /app/src/
+COPY pom.xml build.xml /app/
+RUN gzip -d /app/data/FoodOnAgroPortalImport2.nq.gz && \
+    chmod -R 755 /app
+WORKDIR /app
+CMD ["mvn", "package", "exec:java", ..."]
+VOLUME [ "/app/results"]
+```
+
+```docker
+# Installation du logiciel
+$ docker image build -t align-tool .
+# Lancement du logiciel sous linux
+$ docker container run --rm -it -v ${pwd}/results:/app/results align-tool
+# sous windows
+$ docker container run --rm -it -v %cd%/results:/app/results align-tool
+```
+<!-- .slide: class="reduced" -->
+</script></section><section  data-markdown><script type="text/template">#### Retour d'expérience
+---------------------
+
+Notre besoin :
+* Mise en place de deux plateformes (test et production) avec nos applications
+* Automatiser l'installation
+    * applications web JAVA, Ruby, Python
+    * base de données relationnelles, sémantiques, NoSQL
+    * serveur de calcul R
+* Mutualiser les installations
+* Gérer "proprement" les différentes versions des dépendances (ex: JAVA)
+<!-- .slide: class="reduced" -->
+
+<!--8 applications web
+ii. Schémas d'efactor, d'atweb, de spo2q, de meatylab, capex-ee, mychoice, de fuseki, de damn  = 4 BD sem (2 graphdb, 1 fuseki), 7 serveurs d'app (5 JAVA, 1 truc de capex, 1 ruby), 2 serveur R, 3 bases relationnelles (2 postgres, 1 mysql), 2 bases NoSQL = 9 BD, 7 Serv d'app, 2 serveurs R
+~18 BD et serveurs X2 environnement de test et de prod oblige = 36 "composants"-->
+</script></section><section  data-markdown><script type="text/template">#### Retour d'expérience
+---------------------
+* Complexité
+    * Unix : lu, parlé, écrit
+    * Problèmes liés au fait que docker soit monoprocessus
+    * Impossibilité de charger des modules dans le kernel (modprobe)
+    * Beaucoup de commandes ...
+* Projet en constante évolution
+</script></section><section  data-markdown><script type="text/template">#### Retour d'expérience
+---------------------
+* Bonnes pratiques (communes)
+    * Bon sens : ne pas récupérer nimp sur le DockerHub
+        * Etude sur les failles dans les images Docker
+    * Ne pas monter la racine / dans le conteneur
+    * Groupe et utilisateur dédiés
+    * Ne pas surcharger le conteneur avec des paquets inutiles
+    * Logiciel a maintenir à jour
+</script></section><section  data-markdown><script type="text/template">#### Retour d'expérience
+---------------------
+
+* Sécurité 
+    * Nécessiterait une présentation dédiée!
+    * Ne nous affranchit pas d'une configuration respectant les règles de sécurité en vigueur
+    * Docker requiert des droits élevés : les conteneurs sont executés par root
+    &rArr; Directive USER dans le DockerFile, configuration du serveur dockeremap
+    &rArr; Benchmark de sécurité
+</script></section><section  data-markdown><script type="text/template">#### Retour d'expérience
+---------------------
+</script></section><section  data-markdown><script type="text/template">
+Merci de votre attention !
+
+Des questions ?
+
+<!-- .slide: class="center" --></script></section><section  data-markdown><script type="text/template">#### Liens
+---------------------
+
+* Lien vers projet Docker OpenSource https://github.com/moby
+* Documentation Docker https://docs.docker.com/
+* Docker security bench https://github.com/docker/docker-bench-security
+* Gif provenant de https://giphy.com/
+
+<!-- .slide: class="reduced" --></script></section></div>
+        </div>
+
+        <script src="./lib/js/head.min.js"></script>
+        <script src="./js/reveal.js"></script>
+
+        <script>
+            function extend() {
+              var target = {};
+              for (var i = 0; i < arguments.length; i++) {
+                var source = arguments[i];
+                for (var key in source) {
+                  if (source.hasOwnProperty(key)) {
+                    target[key] = source[key];
+                  }
+                }
+              }
+              return target;
+            }
+
+            // Optional libraries used to extend on reveal.js
+            var deps = [
+              { src: './lib/js/classList.js', condition: function() { return !document.body.classList; } },
+              { src: './plugin/markdown/marked.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: './plugin/markdown/markdown.js', condition: function() { return !!document.querySelector('[data-markdown]'); } },
+              { src: './plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+              { src: './plugin/zoom-js/zoom.js', async: true },
+              { src: './plugin/notes/notes.js', async: true },
+              { src: './plugin/math/math.js', async: true }
+            ];
+
+            // default options to init reveal.js
+            var defaultOptions = {
+              controls: true,
+              progress: true,
+              history: true,
+              center: true,
+              transition: 'default', // none/fade/slide/convex/concave/zoom
+              dependencies: deps
+            };
+
+            // options from URL query string
+            var queryOptions = Reveal.getQueryHash() || {};
+
+            var options = {"slideNumber":"c/t","controls":false,"center":false};
+            options = extend(defaultOptions, options, queryOptions);
+        </script>
+
+
+        <script>
+            Reveal.initialize(options);
+        </script>
+    </body>
+</html>
