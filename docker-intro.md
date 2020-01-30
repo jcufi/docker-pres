@@ -153,7 +153,7 @@ Dans une machine virtuelle, on simule une machine (ie. toute la partie hardware)
 
 *passons à la pratique...* 
 
-<iframe src="https://giphy.com/embed/JIX9t2j0ZTN9S" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+<!--<iframe src="https://giphy.com/embed/JIX9t2j0ZTN9S" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>-->
 <!-- .slide: class="center" -->
 
 ---
@@ -248,6 +248,7 @@ database system is ready to accept connections
 * Environnement isolé de l'hôte donc *par défaut* :
     * Pas de communication réseau
     * Pas de partage de données
+* Monoprocessus
 * Ephémères
     * Tant qu'ils ne sont pas supprimés les fichiers présents dans le conteneur sont persistés.
 
