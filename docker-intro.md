@@ -126,18 +126,16 @@ A l'origine Docker s'appuie sur LXC (LinuX container) et les fonctionnalités d'
 <img src="./open_container_project.png" height="60%" width="60%">
 
 ---
-#### Introduction et principes
----------------------
 
 *Je fais déjà ça avec mes machines virtuelles !*
 
-Dans une machine virtuelle, on simule une machine (ie. toute la partie hardware) et chaque machine virtuelle a son propre système d'exploitation.
+Dans une machine virtuelle, on simule une machine (ie. toute la partie hardware) et chaque machine virtuelle a son propre système d'exploitation &rArr; Surcoût
 <!-- .element: class="reduced" -->
 
-<img src="./Blog.-Are-containers-..VM-Image-1.png" height="80%" width="80%">
+<img src="./Blog.-Are-containers-..VM-Image-1.png" height="70%" width="70%">
 
-
-
+*Container Model VS VM Model*
+<!-- .element: class="reduced" -->
 ---
 #### Introduction et principes
 ---------------------
@@ -145,7 +143,7 @@ Dans une machine virtuelle, on simule une machine (ie. toute la partie hardware)
 *Comment je l'utilise ?*
 
 * Docker est disponible sur Linux / Windows / Mac (VM)
-    &rArr; requiert Hyperviseur sous windows
+    &rArr; requiert une version de windows avec Hyperviseur
 * Deux versions EE et CE (&ne; niveaux de support)
 * On l'utilisera au travers de lignes de commandes
 
@@ -179,14 +177,17 @@ $ docker image pull <image>
 # Démarrer un conteneur
 $ docker container run <image>
 
+# Executer une commande dans un conteneur
+$ docker container exec <nom conteneur> <commande>
+
 # Lister les conteneurs démarrés
 $ docker container ps
 
 # Stopper un conteneur
-$ docker container stop <nom conteneur / identifiant>
+$ docker container stop <nom conteneur>
 
 # Supprimer un conteneur 
-$ docker container rm <nom conteneur / identifiant>
+$ docker container rm <nom conteneur>
 ```
 
 <!-- .slide: class="reduced" -->
@@ -249,8 +250,9 @@ database system is ready to accept connections
     * Pas de communication réseau
     * Pas de partage de données
 * Monoprocessus
-* Ephémères
-    * Tant qu'ils ne sont pas supprimés les fichiers présents dans le conteneur sont persistés.
+* Le conteneur s'arrête lorsque le processus s'arrête
+* Doit être considéré comme ephémère
+<!--* Lorsque le conteneur est arrété les fichiers le sont aussi.-->
 
 <!--Du point de vue de l'application, celle ci s'execute dans sa distribution Linux spécifique et avec son propre système de fichiers.-->
 
@@ -303,6 +305,8 @@ postgresql.conf base     pg_commit_ts  pg_ident.conf  pg_notify
 ...
 ```
 <!-- .slide: class="reduced" -->
+Remarque : la suppression du conteneur n'entraine pas la suppression du volume.
+
 ---
 #### Docker : 1<sup class="exp">er</sup> cas d'utilisation
 ---------------------
@@ -505,5 +509,27 @@ Des questions ?
 * Documentation Docker https://docs.docker.com/
 * Docker security bench https://github.com/docker/docker-bench-security
 * Gif provenant de https://giphy.com/
+* TODO Lien RedHat VM cs conteneur
+* TODO Lien vers Open Container Initiative
 
+
+<!-- .slide: class="reduced" -->
+---
+#### Annexe AUFS
+---------------------
+```bash
+$ docker image pull mongo
+Using default tag: latest
+latest: Pulling from library/mongo
+5c939e3a4d10: Pull complete
+c63719cdbe7a: Pull complete
+...
+Digest: sha256:a1681be5c90348e576966
+Status: Downloaded newer image for mongo:latest
+```
+* Une image est décomposée en couches
+* L'union des différentes couches produit la couche finale sur laquelle l'application s'executera
+* AUFS (Advanced multi layered Unification FileSystem)
+* Docker utilise un drive spécifique pour écrire dans ce FS
+&rArr; Eviter les IO sur AUFS : peu performant mieux vaut privilégier l'écriture dans des volumes 
 <!-- .slide: class="reduced" -->
