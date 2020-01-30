@@ -1,5 +1,8 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet" />
 <style>
+.reveal section img.logo{
+    box-shadow: 0px 0px 0px; !important;
+}
 .reveal section img {
     border: 0px;
 }
@@ -29,6 +32,7 @@
 </style>
 
 ### Présentation docker 
+<img src="./docker-whale.jpeg" class="logo" height="20%" width="20%">
 #### CATI DIISCICO 
 Julien Cufi
 
@@ -249,12 +253,6 @@ database system is ready to accept connections
 
 <!--Du point de vue de l'application, celle ci s'execute dans sa distribution Linux spécifique et avec son propre système de fichiers.-->
 
-&rArr; Association de port hôte/conteneur
-<!-- .element: class="fragment" -->
-
-&rArr; Montage d'un volume partagé
-<!-- .element: class="fragment" -->
-
 ---
 #### Docker : 1<sup class="exp">er</sup> cas d'utilisation
 ---------------------
@@ -470,8 +468,7 @@ ii. Schémas d'efactor, d'atweb, de spo2q, de meatylab, capex-ee, mychoice, de f
 #### Retour d'expérience
 ---------------------
 * Bonnes pratiques (communes)
-    * Bon sens : ne pas récupérer nimp sur le DockerHub
-        * Etude sur les failles dans les images Docker
+    * Bon sens : Ne pas récupérer aveuglement des images sur le DockerHub
     * Ne pas monter la racine / dans le conteneur
     * Groupe et utilisateur dédiés
     * Ne pas surcharger le conteneur avec des paquets inutiles
