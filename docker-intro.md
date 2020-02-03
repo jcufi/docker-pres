@@ -207,7 +207,7 @@ $ docker container rm <nom conteneur>
 #### Docker : 1<sup class="exp">er</sup> cas d'utilisation
 ---------------------
 
-<img src="./dockerhub2.png" height="100%" width="100%">
+<img src="./dockerhub.png" height="100%" width="100%">
 
 *Capture du site DockerHub*
 
