@@ -36,6 +36,8 @@
 #### CATI DIISCICO 
 Julien Cufi
 
+<small>&#x2709; julien.cufi@inrae.fr</small>
+
 <small>04/02/2020</small>
 <!-- .slide: class="center" -->
 ---
@@ -55,7 +57,7 @@ Julien Cufi
 
 *Qu'est-ce que c'est ?*
 
-Docker est une technologie permettant d'exécuter une application dans un environnement isolé, comprenant l'application mais également l'ensemble des dépendances nécessaires a son fonctionnement.
+Docker est une technologie permettant d'exécuter une application dans un environnement isolé, comprenant l'application mais également l'ensemble des dépendances nécessaires à son fonctionnement.
 
 ---
 #### Introduction et principes
@@ -64,7 +66,7 @@ Docker est une technologie permettant d'exécuter une application dans un enviro
 
 * L'environnement dans lequel s'exécute l'application est appelé un ***conteneur Docker***.
 
-* La matrice servant a définir ce qui est présent dans le conteneur est appelée une ***image Docker***.
+* La matrice servant à définir ce qui est présent dans le conteneur est appelée une ***image Docker***.
 
 * Un catalogue public d'images accessible sur le web permet de les mutualiser, ce catalogue s'appelle le ***DockerHub***.
 
@@ -98,8 +100,8 @@ A l'origine Docker s'appuie sur LXC (LinuX container) et les fonctionnalités d'
 
 * Remplacement de LXC par libcontainer
 * Modularisation de la partie serveur
-    * création d'outils spécifiques (creation container, gestion du cycle de vie...)
-    * implémentation de référence des spécifications émise par Open Container Initiative...
+    * création d'outils spécifiques (création container, gestion du cycle de vie...)
+    * implémentation de référence des spécifications émises par Open Container Initiative...
 
 ---
 #### Introduction et principes
@@ -120,7 +122,7 @@ A l'origine Docker s'appuie sur LXC (LinuX container) et les fonctionnalités d'
 
 *Je fais déjà ça avec mes machines virtuelles !*
 
-Dans une machine virtuelle, on simule une machine (ie. toute la partie hardware) et chaque machine virtuelle a son propre système d'exploitation &rArr; Surcoût
+Dans une machine virtuelle, un hyperviseur simule une machine (*ie.* toute la partie hardware) et chaque machine virtuelle à son propre système d'exploitation &rArr; Surcoût
 <!-- .element: class="reduced" -->
 
 <img src="./Blog.-Are-containers-..VM-Image-1.png" height="70%" width="70%">
@@ -136,7 +138,7 @@ Dans une machine virtuelle, on simule une machine (ie. toute la partie hardware)
 * Docker est disponible sur Linux / Windows / Mac (VM)
     &rArr; requiert une version de windows avec Hyperviseur
 * Deux versions EE et CE (&ne; niveaux de support)
-* On l'utilisera au travers de lignes de commandes
+* L'utilisation se fera au travers de lignes de commandes
 
 ---
 #### Introduction et principes
@@ -158,9 +160,9 @@ Dans une machine virtuelle, on simule une machine (ie. toute la partie hardware)
 
 Deux cas d'utilisation 
 
-* Pour l'admin sys qui souhaite tirer parti de Docker pour installer un logiciel et le tester
+* Pour un utilisateur qui souhaite tirer partie de Docker pour installer un logiciel et le tester
 
-* Pour le développeur qui souhaite diffuser un logiciel
+* Pour un développeur qui souhaite diffuser un logiciel
 
 ---
 #### Cas d'utilisation
@@ -229,8 +231,8 @@ Le client demande le démarrage d'un conteneur, le serveur ne connaissant pas l'
 #### Docker : 1<sup class="exp">er</sup> cas d'utilisation
 ---------------------
 
-Une fois l'image téléchargé le conteneur est démarré,
-la base est prête a être utilisée
+Une fois l'image téléchargée le conteneur est démarré,
+la base est prête à être utilisée
 
 ```bash 
 PostgreSQL init process complete; ready for start up.
@@ -310,7 +312,7 @@ Remarque : la suppression du conteneur n'entraine pas la suppression du volume.
 #### Docker : 2<sup class="exp">eme</sup> cas d'utilisation
 ---------------------
 
->  J'ai implémenté un algorithme, je souhaite le mettre a disposition.
+>  J'ai implémenté un algorithme, je souhaite le mettre à disposition.
 
 Objectif : 
 Faciliter la reproductibilité des résultats en minimisant les étapes d'installation* du logiciel
@@ -325,15 +327,15 @@ Faciliter la reproductibilité des résultats en minimisant les étapes d'instal
 #### Docker : Création d'image 1/4
 ---------------------
 
-* Une image docker est un fichier texte nommé Dockerfile respectant un language propre a Docker
+* Une image docker est un fichier texte nommé DockerFile respectant un langage propre à Docker
 
-* On peut "hériter" d'autres images existantes pour les étendre
+* Une image peut "hériter" d'une image existante pour l'étendre
 
-* Il contient l'ensemble des instructions nécessaires a l'installation du logiciel
+* Le DockerFile contient l'ensemble des instructions nécessaires à l'installation du logiciel
 
-* Il est nécessaire de compiler le fichier Dockerfile pour l'utiliser
+* Il est nécessaire de "compiler" le fichier DockerFile pour utiliser l'image produite
 
-* L'image réalisée peut rester en local (sans être partagée sur le DockerHub)
+* L'image réalisée peut rester en local, *i.e* sans être partagée sur le DockerHub
 <!-- .slide: class="reduced" -->
 
 ---
@@ -397,7 +399,7 @@ $ docker container run cow "Je suis une vache"
 #### Docker : 2<sup class="exp">eme</sup> cas d'utilisation
 ---------------------
 
->  J'ai implémenté un algorithme, je souhaite le mettre a disposition.
+>  J'ai implémenté un algorithme, je souhaite le mettre à disposition.
 
 Cette implémentation requiert :
 * un jeu de données de test
@@ -472,9 +474,9 @@ Notre besoin :
 ---------------------
 
 * Sécurité 
-    * Nécessiterait une présentation dédiée!
+    * Nécessiterait une présentation dédiée !
     * Ne nous affranchit pas du respect des règles de sécurité en vigueur
-    * Docker requiert des droits élevés : les conteneurs sont executés par root
+    * Docker requiert des droits élevés : les conteneurs sont exécutés par root
 
     &rArr; Directive USER dans le DockerFile, configuration du serveur dockeremap
     
@@ -512,7 +514,7 @@ Digest: sha256:a1681be5c90348e576966
 Status: Downloaded newer image for mongo:latest
 ```
 * Une image est décomposée en couches
-* L'union des différentes couches produit la couche finale sur laquelle l'application s'executera
+* L'union des différentes couches produit la couche finale sur laquelle l'application s'exécutera
 * AUFS (Advanced multi layered Unification FileSystem)
 * Docker utilise un drive spécifique pour écrire dans ce FS
 &rArr; Eviter les IO sur AUFS : peu performant mieux vaut privilégier l'écriture dans des volumes 
@@ -523,9 +525,9 @@ Status: Downloaded newer image for mongo:latest
 #### Annexe Docker compose
 ---------------------
 
-* En pratique on a besoin : 
+* En pratique l'utilisateur de Docker a besoin : 
     * de passer des paramètres au conteneur (plusieurs volumes, ports, nom, réseau...)
-    * de démarrer plusieurs conteneurs avec des relations de dépendances
+    * de démarrer plusieurs conteneurs avec des relations de dépendances en même temps
 
 
 &rArr; Difficilement réalisable en ligne de commande...
