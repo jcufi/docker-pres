@@ -64,7 +64,7 @@ Docker est une technologie permettant d'exécuter une application dans un enviro
 
 * L'environnement dans lequel s'exécute l'application est appelé un ***conteneur Docker***.
 
-* La matrice servant a définir ce qui est présent dans le conteneur est appelé une ***image Docker***.
+* La matrice servant a définir ce qui est présent dans le conteneur est appelée une ***image Docker***.
 
 * Un catalogue public d'images accessible sur le web permet de les mutualiser, ce catalogue s'appelle le ***DockerHub***.
 
@@ -83,14 +83,6 @@ Docker est une technologie permettant d'exécuter une application dans un enviro
 #### Introduction et principes
 ---------------------
 
-![](./engine-components-flow.png)
-
-<small>Docker s'appuie sur une architecture client/serveur, un client en ligne de commande envoie des instructions (via une API REST) au serveur (daemon docker / docker engine).</small>
-
----
-#### Introduction et principes
----------------------
-
 *Comment ça marche ?*
 
 A l'origine Docker s'appuie sur LXC (LinuX container) et les fonctionnalités d'isolation du noyau Linux (cgroup, namespaces, ...) pour fournir un environnement d'exécution étanche.
@@ -99,7 +91,6 @@ A l'origine Docker s'appuie sur LXC (LinuX container) et les fonctionnalités d'
 <!-- .element: class="fragment" -->
 
 <!--Parmis ces fonctionnalités citons les espaces de nom Linux (isolation du système de fichier, des processus, du  réseau), et les groupes de contrôle (limitation des ressources)-->
-
 
 ---
 #### Introduction et principes
@@ -148,7 +139,14 @@ Dans une machine virtuelle, on simule une machine (ie. toute la partie hardware)
 * On l'utilisera au travers de lignes de commandes
 
 ---
+#### Introduction et principes
+---------------------
 
+![](./engine-components-flow.png)
+
+<small>Docker s'appuie sur une architecture client/serveur, un client en ligne de commande envoie des instructions (via une API REST) au serveur (daemon docker / docker engine).</small>
+
+---
 *passons à la pratique...* 
 
 <!--<iframe src="https://giphy.com/embed/JIX9t2j0ZTN9S" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>-->
@@ -169,16 +167,12 @@ Deux cas d'utilisation
 ---------------------
 *Quelques commandes de base*
 
-
 ```bash 
 # Télécharger une image
 $ docker image pull <image>
 
 # Démarrer un conteneur
 $ docker container run <image>
-
-# Executer une commande dans un conteneur
-$ docker container exec <nom conteneur> <commande>
 
 # Lister les conteneurs démarrés
 $ docker container ps
@@ -189,7 +183,6 @@ $ docker container stop <nom conteneur>
 # Supprimer un conteneur 
 $ docker container rm <nom conteneur>
 ```
-
 <!-- .slide: class="reduced" -->
 
 ---
@@ -206,7 +199,15 @@ $ docker container rm <nom conteneur>
     * des images non-officielles : le Far West
 
 <!-- .slide: class="reduced" -->
-<!-- <img src="./dockerhub.png" height="20%" width="20%"> -->
+
+
+---
+#### Docker : 1<sup class="exp">er</sup> cas d'utilisation
+---------------------
+
+<img src="./dockerhub2.png" height="100%" width="100%">
+
+*Capture du site DockerHub*
 
 ---
 #### Docker : 1<sup class="exp">er</sup> cas d'utilisation
@@ -246,15 +247,13 @@ database system is ready to accept connections
 
 *Quelques particularités sur les conteneurs*
 
-* Environnement isolé de l'hôte donc *par défaut* :
+* Isolé de l'hôte *par défaut* 
     * Pas de communication réseau
     * Pas de partage de données
 * Monoprocessus
-* Le conteneur s'arrête lorsque le processus s'arrête
-* Doit être considéré comme ephémère
-<!--* Lorsque le conteneur est arrété les fichiers le sont aussi.-->
-
-<!--Du point de vue de l'application, celle ci s'execute dans sa distribution Linux spécifique et avec son propre système de fichiers.-->
+* Doit être considéré comme éphémère
+    * Le conteneur s'arrête lorsque le processus s'arrête
+    * Données stockées dans le conteneur de manière temporaire
 
 ---
 #### Docker : 1<sup class="exp">er</sup> cas d'utilisation
@@ -308,20 +307,13 @@ postgresql.conf base     pg_commit_ts  pg_ident.conf  pg_notify
 Remarque : la suppression du conteneur n'entraine pas la suppression du volume.
 
 ---
-#### Docker : 1<sup class="exp">er</sup> cas d'utilisation
----------------------
-
-Slide sur docker-compose ?
-
-
----
 #### Docker : 2<sup class="exp">eme</sup> cas d'utilisation
 ---------------------
 
 >  J'ai implémenté un algorithme, je souhaite le mettre a disposition.
 
 Objectif : 
-Faciliter la reproductibilité des résultats en minimisant les étapes d'installation du logiciel
+Faciliter la reproductibilité des résultats en minimisant les étapes d'installation* du logiciel
 
 &rArr; Nécessite de créer une image Docker propre à son logiciel
 
@@ -455,10 +447,6 @@ Notre besoin :
 * Gérer "proprement" les différentes versions des dépendances (ex: JAVA)
 <!-- .slide: class="reduced" -->
 
-<!--8 applications web
-ii. Schémas d'efactor, d'atweb, de spo2q, de meatylab, capex-ee, mychoice, de fuseki, de damn  = 4 BD sem (2 graphdb, 1 fuseki), 7 serveurs d'app (5 JAVA, 1 truc de capex, 1 ruby), 2 serveur R, 3 bases relationnelles (2 postgres, 1 mysql), 2 bases NoSQL = 9 BD, 7 Serv d'app, 2 serveurs R
-~18 BD et serveurs X2 environnement de test et de prod oblige = 36 "composants"-->
-
 ---
 #### Retour d'expérience
 ---------------------
@@ -475,9 +463,9 @@ ii. Schémas d'efactor, d'atweb, de spo2q, de meatylab, capex-ee, mychoice, de f
 * Bonnes pratiques (communes)
     * Bon sens : Ne pas récupérer aveuglement des images sur le DockerHub
     * Ne pas monter la racine / dans le conteneur
-    * Groupe et utilisateur dédiés
+    * Groupe et utilisateurs dédiés
     * Ne pas surcharger le conteneur avec des paquets inutiles
-    * Logiciel a maintenir à jour
+    * Logiciel à maintenir à jour
 
 ---
 #### Retour d'expérience
@@ -485,15 +473,11 @@ ii. Schémas d'efactor, d'atweb, de spo2q, de meatylab, capex-ee, mychoice, de f
 
 * Sécurité 
     * Nécessiterait une présentation dédiée!
-    * Ne nous affranchit pas d'une configuration respectant les règles de sécurité en vigueur
+    * Ne nous affranchit pas du respect des règles de sécurité en vigueur
     * Docker requiert des droits élevés : les conteneurs sont executés par root
+
     &rArr; Directive USER dans le DockerFile, configuration du serveur dockeremap
-    &rArr; Benchmark de sécurité
-
----
-#### Retour d'expérience
----------------------
-
+    
 ---
 
 Merci de votre attention !
@@ -505,12 +489,12 @@ Des questions ?
 #### Liens
 ---------------------
 
-* Lien vers projet Docker OpenSource https://github.com/moby
-* Documentation Docker https://docs.docker.com/
-* Docker security bench https://github.com/docker/docker-bench-security
-* Gif provenant de https://giphy.com/
-* TODO Lien RedHat VM cs conteneur
-* TODO Lien vers Open Container Initiative
+
+* Documentation Docker : https://docs.docker.com/
+* Docker security bench : https://github.com/docker/docker-bench-security
+* Lien vers projet Docker OpenSource : https://github.com/moby
+* Lien RedHat "VM vs container" : https://www.redhat.com/fr/topics/containers/whats-a-linux-container
+* Lien vers Open Container Initiative : https://www.opencontainers.org/
 
 
 <!-- .slide: class="reduced" -->
@@ -533,3 +517,55 @@ Status: Downloaded newer image for mongo:latest
 * Docker utilise un drive spécifique pour écrire dans ce FS
 &rArr; Eviter les IO sur AUFS : peu performant mieux vaut privilégier l'écriture dans des volumes 
 <!-- .slide: class="reduced" -->
+
+
+---
+#### Annexe Docker compose
+---------------------
+
+* En pratique on a besoin : 
+    * de passer des paramètres au conteneur (plusieurs volumes, ports, nom, réseau...)
+    * de démarrer plusieurs conteneurs avec des relations de dépendances
+
+
+&rArr; Difficilement réalisable en ligne de commande...
+<!-- .element: class="fragment" -->
+
+Solution : docker-compose
+<!-- .element: class="fragment" -->
+
+---
+#### Annexe Docker compose
+---------------------
+```docker
+version: "3.0"
+services:
+  centos-efactor:
+    container_name: tomcat-efactor
+    image: centos-efactor:latest    
+    networks:
+      - ico-network
+    depends_on:
+      - centos-rserve
+  centos-rserve:
+    image: centos-rserve:latest
+    volumes:
+      - rserve:/usr/local/efactor/rserve
+    networks:
+      - ico-network 
+```
+*Extrait d'un fichier docker-compose.yml*
+<!-- .slide: class="reduced" -->
+
+```bash
+# Lancement des conteneurs
+$ docker-compose up
+```
+---
+#### Annexe Docker compose
+---------------------
+
+![](./docker-efactor.png)
+
+![](./legende.png)
+
