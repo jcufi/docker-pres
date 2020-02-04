@@ -36,7 +36,7 @@
 #### CATI DIISCICO 
 Julien Cufi
 
-<img src="mel.png" class="logo" height="25%" width="25%">
+<small>&#x2709; julien.cufi@inrae.fr</small>
 
 <small>04/02/2020</small>
 <!-- .slide: class="center" -->
