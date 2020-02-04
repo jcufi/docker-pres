@@ -36,7 +36,7 @@
 #### CATI DIISCICO 
 Julien Cufi
 
-<small>&#x2709; julien.cufi@inrae.fr</small>
+<img src="./mel.png" class="logo" height="25%" width="25%">
 
 <small>04/02/2020</small>
 <!-- .slide: class="center" -->
@@ -92,15 +92,14 @@ A l'origine Docker s'appuie sur LXC (LinuX container) et les fonctionnalités d'
 &rArr; Problème de portabilité pour Docker Inc.
 <!-- .element: class="fragment" -->
 
-<!--Parmis ces fonctionnalités citons les espaces de nom Linux (isolation du système de fichier, des processus, du  réseau), et les groupes de contrôle (limitation des ressources)-->
-
 ---
 #### Introduction et principes
 ---------------------
 
 * Remplacement de LXC par libcontainer
 * Modularisation de la partie serveur
-    * création d'outils spécifiques (création container, gestion du cycle de vie...)
+    * création d'outils spécifiques pour la création de conteneur (runc), 
+      et la gestion du cycle de vie (condainerd), ...
     * implémentation de référence des spécifications émises par Open Container Initiative...
 
 ---
@@ -151,7 +150,6 @@ Dans une machine virtuelle, un hyperviseur simule une machine (*ie.* toute la pa
 ---
 *passons à la pratique...* 
 
-<!--<iframe src="https://giphy.com/embed/JIX9t2j0ZTN9S" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>-->
 <!-- .slide: class="center" -->
 
 ---
@@ -333,7 +331,7 @@ Faciliter la reproductibilité des résultats en minimisant les étapes d'instal
 
 * Le DockerFile contient l'ensemble des instructions nécessaires à l'installation du logiciel
 
-* Il est nécessaire de "compiler" le fichier DockerFile pour utiliser l'image produite
+* Il est nécessaire de lancer l'assemblage de l'image a partir du fichier DockerFile
 
 * L'image réalisée peut rester en local, *i.e* sans être partagée sur le DockerHub
 <!-- .slide: class="reduced" -->
@@ -359,7 +357,7 @@ ENTRYPOINT ["/usr/games/cowsay"]
 ---
 #### Docker : Création d'image 3/4
 ---------------------
-Compilation de l'image :
+Assemblage de l'image :
 
 ```bash
 $ docker image build -t cow .
@@ -421,7 +419,7 @@ COPY pom.xml build.xml /app/
 RUN gzip -d /app/data/FoodOnAgroPortalImport2.nq.gz && \
     chmod -R 755 /app
 WORKDIR /app
-CMD ["mvn", "package", "exec:java", ..."]
+ENTRYPOINT ["mvn", "package", "exec:java", ..."]
 VOLUME [ "/app/results"]
 ```
 
