@@ -1,5 +1,6 @@
 {
 "slideNumber" : "c/t", 
-"controls": false,
+"controls": true,
+"controlsLayout": "edges",
 "center": false 
 }
